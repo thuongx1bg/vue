@@ -1,0 +1,130 @@
+#modal-employee {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.199);
+    display: none;
+  }
+.open{
+    display: block;
+  } 
+  .div-info input{
+    width: 180px;
+    height: 40px;
+}
+#modal-employee-content {
+    background-color: #ffffff;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 4px;
+}
+
+#modal-employee .info-employee-left {
+    width: 35%;
+    float: left;
+}
+
+.info-employee-right {
+    width: 65%;
+    float: left;
+}
+
+#info {
+    display: flex;
+    justify-content: space-between;
+}
+
+#info label {
+    display: inline-block;
+    padding: 5px 0px;
+}
+
+#info-left, #info-right {
+    max-width: 50%;
+    box-sizing: border-box;
+    padding: 5px 5px 0px 5px;   
+}
+
+#modal-employee .validate {
+    display: inline-block;
+    margin-top: 5px;
+    margin-left: 5px;
+    color: red;
+    font-size: 14px;
+}
+
+#modal-employee .info-employee-left {
+    text-align: center;
+    box-sizing: border-box;
+    padding: 0px 12px;
+}
+
+#modal-employee .info-employee-left span {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color: #ffffff;
+    background-image: url(../../assets/img/default-avatar.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    border-radius: 50%;
+    border: 1px solid #bbbbbb;
+    cursor: pointer;
+}
+
+#info-left input[type="date"] {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.info-employee-right {
+    box-sizing: border-box;
+    padding: 0px 24px 24px 0px;
+}
+
+.info-employee-right h4{
+    margin: 0;
+}
+
+
+.info-employee-right hr {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 100px;
+    height: 2px;
+    background-color: #019160;
+    border: none;
+    outline: none;
+
+}
+
+.info-employee-combobox {
+    height: 40px;
+    width: 100%;    
+    border: 1px solid #bbbbbb;
+    border-radius: 4px;
+    outline: none;
+    padding: 0px 16px;
+}
+
+.info-employee-combobox:focus {
+    border-color: #019160;
+}
+
+#button-save {
+    background-image: url(../../assets/icon/icon-save.png);
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-position-y: center;
+    background-position-x: 16px;
+    padding-left: 40px;
+}
+

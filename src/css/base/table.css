@@ -1,0 +1,53 @@
+.m-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none;
+  position: relative;
+}
+.m-table tr {
+  border-bottom: 1px solid #bbbbbb;
+  height: 48px;
+}
+.m-table thead {
+  box-shadow: #bbbbbb 0px 1px 6px;
+}
+
+.m-table td,
+th {
+  padding: 0 10px;
+}
+
+.m-table tbody td:first-child {
+  padding-left: 16px;
+}
+table.m-table tbody tr .action {
+  opacity: 0;
+}
+table.m-table tbody tr:hover {
+  cursor: pointer;
+  /* background-color: #bbbbbb; */
+  background-color: #ebf3ff;
+}
+table.m-table tbody tr:hover .action {
+  opacity: 1;
+  text-align: center;
+  line-height: 48px;
+}
+
+
+table.m-table tr:hover .action {
+  display: block;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #bebebe;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(187, 187, 187);
+  border-radius: 1px;
+}

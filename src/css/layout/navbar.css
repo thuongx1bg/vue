@@ -1,0 +1,75 @@
+.m-navbar {
+  position: relative;
+  width: 225px;
+  height: calc(100vh - 48px) ;
+  float: left;
+  /* border-right: 1px solid ; */
+  box-sizing: border-box;
+  box-shadow: rgb(211, 211, 211) 0px 3px 6px 0px ;
+
+}
+.m-navbar .m-navbar-item {
+  display: flex;
+  height: 44px;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+    color: black;
+}
+.m-navbar .m-item-selected{
+    background-color: #019160 !important;
+    color: #fff;
+
+}
+.m-navbar .m-navbar-item:hover{
+    background-color: #e5e5e5;
+    color: #000;
+}
+.m-navbar .m-navbar-item .m-item-icon {
+  font-size: 13px;
+  margin-left: 16px;
+  padding-right: 10px;
+  line-height: 44px;
+  /* height: 20px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+  background-size: 20px;
+  margin-left: 16px;
+  padding-right: 10px; */
+}
+
+.m-navbar .m-navbar-item .m-item-content{
+    font-size: 13px;
+    line-height: 44px;
+
+
+    /* opacity: 0;
+	visibility: hidden; */
+}
+.m-navbar .m-collapse-toggle{
+  position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	bottom: 8px;
+	right: 0px;
+	width: 24px;
+	height: 24px;
+	font-size: 24px;
+	color: #fff;
+	background-color: #b8c7d6;
+	cursor: pointer;
+}
+.m-sidebar.toggle {
+	width: 60px;
+}
+
+
+
+.m-sidebar.toggle .toggled {
+    transform: rotate(180deg);
+}

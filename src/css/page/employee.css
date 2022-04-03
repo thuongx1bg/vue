@@ -1,0 +1,115 @@
+.m-dialog-box {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.158);
+
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 10;
+ 
+}
+.m-dialog-add-user {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+  background-color: #fff;
+  border-radius: 4px;
+  width: 650px;
+  transform: translate(-50%, -50%);
+}
+.m-dialog-header-title {
+  padding: 24px 0 24px 24px;
+}
+.m-dialog-header-close {
+  /* background-color: bisque; */
+  position: absolute;
+  background-image: url(../../assets/icon/x.svg);
+  height: 20px;
+  background-size: 15px;
+  top: 0;
+  width: 20px;
+  background-repeat: no-repeat;
+  right: 0;
+  border-radius: 4px;
+  background-position: center center;
+}
+.m-dialog-header-close:hover {
+  background-color: #bebebe;
+}
+.m-dialog-body {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-between;
+}
+.m-dialog-body .m-dialog-body-left {
+  width: 194px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  text-align: center;
+  padding: 0 10px 0 10px;
+}
+.m-dialog-body .m-dialog-body-left .m-dialog-avatar {
+  background-image: url(../../assets/img/default-avatar.jpg);
+  background-repeat: no-repeat;
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-position: center center;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  border: 1px solid #bebebe;
+  cursor: pointer;
+}
+.m-dialog-body .m-dialog-body-right {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+.m-dialog-body .m-dialog-body-right .m-dialog-content {
+  display: flex;
+}
+
+.m-dialog-content-column2 {
+  padding-right: 24px;
+  padding-left: 24px;
+}
+.m-dialog-content-column2 input {
+  width: 200px;
+  color: black;
+}
+.m-dialog-content-column1 .m-row-input {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.m-dialog-content-column2 .m-row-input {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.m-dialog-content-column1 input {
+  width: 200px;
+}
+
+.m-dialog-footer {
+  background-color: #f7f7f7;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+.m-dialog-footer .m-btn-save {
+  margin-right: 16px;
+  margin-left: 16px;
+}
+.m-dialog-footer .m-btn-close {
+  background-color: #f7f7f7;
+  color: black;
+}
+.m-dialog-footer .m-btn-close:hover {
+  background-color: #bebebe;
+}
+.red {
+  border: 1px solid red;
+}

@@ -1,0 +1,32 @@
+@import url(base/button.css);
+@import url(base/input.css);
+@import url(base/table.css);
+@import url(base/paging.css);
+@import url(base/dialog.css);
+@import url(base/checkbox.css);
+@import url(base/chip-status.css);
+@import url(base/modal-employee.css);
+@import url(base/modal.css);
+
+@import url(base/combobox.css);
+@import url(page/add-employedd.css);
+@import url(page/employee.css);
+@import url(common/common.css);
+
+body {
+  margin: 0;
+  font-family:  Roboto-Regular;
+  font-size: 13px;
+}
+.m-row {
+  padding: 20px;
+}
+
+@font-face {
+  font-family: MISA GoogleSans;
+  src: url(../assets/font/GoogleSans-Regular.otf);
+}
+@font-face {
+  font-family: Roboto-Regular;
+  src: url(../assets/font/Roboto-Regular.ttf);
+}
