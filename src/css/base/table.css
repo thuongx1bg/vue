@@ -9,7 +9,8 @@
   height: 48px;
 }
 .m-table thead {
-  box-shadow: #bbbbbb 0px 1px 6px;
+  /* box-shadow: #bbbbbb 0px 1px 6px; */
+  border-bottom: 1px solid black
 }
 
 .m-table td,

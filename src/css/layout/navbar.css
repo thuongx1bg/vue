@@ -21,6 +21,11 @@
     color: #fff;
 
 }
+.m-navbar .m-item-selected:hover{
+  background-color: #019160 !important;
+  color: #fff !important;
+
+}
 .m-navbar .m-navbar-item:hover{
     background-color: #e5e5e5;
     color: #000;

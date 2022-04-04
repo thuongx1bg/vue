@@ -18,23 +18,32 @@
         class="m-input-search m-input"
         placeholder="Tìm kiếm theo tên, mã hoặc số điện thoại"
       />
-      <select style="margin-left: 10px; margin-right: 13px" name="" id="">
+      <!-- <select style="margin-left: 10px; margin-right: 13px" name="" id="">
         <option value="">Tất cả phòng ban</option>
         <option value="">Phòng 1</option>
-      </select>
-      <!-- <mcombobox id="" api="http://amis.manhnv.net/api/v1/Departments" propValue="DepartmentName" propName="DepartmentId"></mcombobox> -->
-      <select name="" id="">
-        <option value="">Tất cả vị trí</option>
-        <option value="">vt1</option>
-        <option value="">vt2</option>
-      </select>
+      </select> -->
+
+      <!-- items : dữ liệu để build combobox -->
+      <!-- employeeForm : truyền toàn bộ dữ liệu form sang combobox để bind combobox -->
+      <!-- bindDataForm : sự kiện khi thay đổi lựa chọn trên combobox sẽ gửi lại dữ liệu lên form để gửi lên server -->
+      <combobox-component
+      style="height:40px;margin-left:16px"
+        :items="departments"
+        
+      />
+
+      <combobox-component
+      style="height:40px;margin-left:16px"
+        :items="positions"
+        
+      />
     </div>
 
     <div class="m-content-toolbar-right">
       <div class="m-content-toolbar-right1">
         <i class="text-align-center far fa-trash-alt btnDelete"></i>
       </div>
-      <div class="m-content-toolbar-right2"></div>
+      <div @click="loadingEmployees" class="m-content-toolbar-right2"></div>
     </div>
   </div>
 
@@ -73,7 +82,8 @@
         </thead>
         <tbody>
           <tr
-            @dblclick="rowOnClick(emp)"
+            @dblclick="rowOnDbClick(emp)"
+            @click="rowOnClick(emp)"
             v-for="emp in employees"
             :key="emp.EmployeeId"
           >
@@ -96,7 +106,7 @@
             <td class="text-align-right">3.000.000 đ</td>
             <td class="action text-align-center">
               <i
-                @click="rowOnClick(emp)"
+                @click="rowOnDbClick(emp)"
                 style="font-size: 17px; color: #138496; margin-right: 10px"
                 class="far fa-edit edit-form-employee"
               ></i>
@@ -149,22 +159,25 @@
 
   <!-- end mặt nạ -->
   <EmployeeDetail
-    :employeeSelectedInChild="employeeSelected"
+    v-bind:employeeSelectedInChild="employeeSelected"
     :isShow="isShowDialog"
     @closeOnClick="showOrHideDialog"
     :newEmployeeCode="newEmployeeCode"
     :formMode="formMode"
-    
+    @loadingEmployees="loadingEmployee"
   />
 </template>
 
 <script>
 import axios from "axios";
 import EmployeeDetail from "./EmployeeDetail.vue";
+import MISAEnum from "../../js/enum";
+import Combobox from "../../js/Components/Combobox.js";
+import ComboboxComponent from "../../components/base/Combobox.vue";
 export default {
   name: "employee-list",
   components: {
-    EmployeeDetail,
+    EmployeeDetail, ComboboxComponent
   },
 
   /**
@@ -173,20 +186,17 @@ export default {
    */
   data() {
     return {
-      formMode: this.MISAEnum.FormMode.Add,
+      formMode: 0,
       employeeSelected: {},
       newEmployeeCode: {},
-      employees: [
-        {
-          EmployeeCode: "NV001",
-          FullName: "N",
-        },
-        {
-          EmployeeCode: "nvt0123",
-          FullName: "B",
-        },
-      ],
+      employees: [],
       isShowDialog: false,
+      departments: Combobox.getDepartment("EmployeeDetail"),
+
+      positions: Combobox.getPosition("EmployeeDetail"),
+
+      genders: Combobox.getGender("EmployeeDetail"),
+     
     };
   },
 
@@ -194,11 +204,34 @@ export default {
    * các phương thuwcs
    */
   methods: {
+
+    
+    /**
+     * Hàm load lại data và ẩn form thêm sửa nhân viên
+     */
+    loadingEmployee(isShow) {
+      let me = this;
+      me.loadingEmployees();
+      me.isShowDialog = isShow;
+    },
     /**
      * Hàm load lại data
      */
-
-  
+    loadingEmployees() {
+      try {
+        var me = this;
+        axios
+          .get("http://amis.manhnv.net/api/v1/Employees")
+          .then(function (res) {
+            me.employees = res.data;
+          })
+          .catch(function () {
+            // kiểm tra mã lỗi của api và thực hiện hành động tướng ứng với mã lỗi đó
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    },
     /**
      * Hàm xóa nhân viên
      */
@@ -206,6 +239,7 @@ export default {
       /**
        * Bật mặt nạ sau form có background có màu đậm hơn
        */
+      let me = this;
       document.getElementById("matna").style.display = "block";
       /**
        * show sweetalert
@@ -225,10 +259,14 @@ export default {
           if (result.isConfirmed) {
             this.employeeSelected = emp;
 
-            axios.delete(
-              `http://amis.manhnv.net/api/v1/Employees/${emp.EmployeeId}`,
-              emp
-            );
+            axios
+              .delete(
+                `http://amis.manhnv.net/api/v1/Employees/${emp.EmployeeId}`,
+                emp
+              )
+              .then((res) => {
+                me.loadingEmployees();
+              });
             // ẩn mặt nạ
             document.getElementById("matna").style.display = "none";
 
@@ -256,21 +294,24 @@ export default {
         });
     },
 
-    getName() {
-      return "MISA";
+    /**
+     * select 1 row nhan viên
+     */
+    rowOnClick(emp) {
+      var me = this;
+      me.employeeSelected = emp;
     },
     /**
      * hiển thiwjc form cho phép sửa thông tin nhân viên
      */
-    rowOnClick(emp) {
+    rowOnDbClick(emp) {
       // lấy thông tin nhân viên:
       // console.log(emp.EmployeeName);
       var me = this;
       me.formMode = this.MISAEnum.FormMode.Update;
 
       // Biding thông tin chi tiết nhân viên tương ứng lên form chi tiết
-      this.employeeSelected = emp;
-      // this.parent().parent().employeeSelected=emp;
+
       // hiển thị dialog
       this.showOrHideDialog(true);
     },
@@ -279,10 +320,8 @@ export default {
      * thương
      */
     btnAddOnclick() {
-      // console.log(1);
-
       var me = this;
-      me.formMode = this.MISAEnum.FormMode.Add;
+      me.formMode = MISAEnum.FormMode.Add;
       this.employeeSelected = {};
       // lấy thông tin mã nhân viên mới
       axios
@@ -291,12 +330,12 @@ export default {
           me.employeeSelected.EmployeeCode = res.data;
         })
         .catch(function () {}),
-        this.showOrHideDialog(true);
-      // this.isShowDialog = true;
+        me.showOrHideDialog(true);
     },
     showOrHideDialog(isShow) {
       this.isShowDialog = isShow;
     },
+
     /**
      * Hàm định dạng ngày tháng năm
      */
@@ -334,19 +373,7 @@ export default {
     // console.log(`${this.Name}`)
     // thực hiện lấy dữ liệu
     // gọi api lấy dữ liệu danh sách nhân viên
-     try {
-        var me = this;
-        axios
-          .get("http://amis.manhnv.net/api/v1/Employees")
-          .then(function (res) {
-            me.employees = res.data;
-          })
-          .catch(function () {
-            // kiểm tra mã lỗi của api và thực hiện hành động tướng ứng với mã lỗi đó
-          });
-      } catch (error) {
-        console.log(error);
-      }
+    this.loadingEmployees();
   },
   // 3. beforeceMount
   beforeMount() {

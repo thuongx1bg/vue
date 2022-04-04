@@ -110,6 +110,13 @@
 .m-dialog-footer .m-btn-close:hover {
   background-color: #bebebe;
 }
+hr{
+  font-size: 16px;
+    height: 2px;
+    background-color: rgb(1, 145, 96);
+    width: 150px;
+    margin-left: 0;
+}
 .red {
   border: 1px solid red;
 }

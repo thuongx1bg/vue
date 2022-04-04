@@ -1,5 +1,5 @@
 <template>
     <div>
-danh sách nhân viên
+danh sách khác hàng
     </div>
 </template>

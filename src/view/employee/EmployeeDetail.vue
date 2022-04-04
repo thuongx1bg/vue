@@ -63,6 +63,7 @@
                     type="email"
                     class="m-input"
                     placeholder=""
+                    id="email"
                     v-model="employee.Email"
                   />
                 </div>
@@ -73,27 +74,13 @@
                   >Phòng ban (<span style="color: red">*</span>)</label
                 >
                 <div class="m-row-input">
-                  <select
-                    style="width: 200px"
-                    class="select"
-                    name=""
-                    id="DepartmentId"
-                    property="DepartmentId"
-                    v-model="employee.DepartmentId"
-                    required
-                  >
-                    <option value="142cb08f-7c31-21fa-8e90-67245e8b283e">
-                      Phòng Marketing
-                    </option>
-
-                    <option value="11452b0c-768e-5ff7-0d63-eeb1d8ed8cef">
-                      Phòng Nhân sự
-                    </option>
-
-                    <option value="4e272fc4-7875-78d6-7d32-6a1673ffca7c">
-                      Phòng đào tạo
-                    </option>
-                  </select>
+                  <combobox-component
+                  id="department"
+                    style="height: 40px,color:black !important"
+                    :items="departments"
+                    @bindDataForm="bindDataForm"
+                    v-bind:employee="employee.DepartmentId"
+                  />
                 </div>
               </div>
             </div>
@@ -119,11 +106,12 @@
               <div class="m-dialog-input">
                 <label for="">Giới tính</label>
                 <div class="m-row-input">
-                  <select style="width: 200px" name="" id="">
-                    <option value="">Nam</option>
-                    <option value="">Nữ</option>
-                    <option value="">Khác</option>
-                  </select>
+                  <combobox-component
+                    style="height: 40px"
+                    :items="genders"
+                    @bindDataForm="bindDataForm"
+                    v-bind:employee="employee.Gender"
+                  />
                 </div>
               </div>
 
@@ -170,32 +158,52 @@
 
 <script>
 import axios from "axios";
+import Combobox from "../../js/Components/Combobox.js";
+import ComboboxComponent from "../../components/base/Combobox.vue";
 
-// import MISAEnum from "../../js/enum.js"
 export default {
   name: "EmployeeDetail",
+  components: {
+    ComboboxComponent,
+  },
   props: ["isShow", "employeeSelectedInChild", "formMode"],
   watch: {
     employeeSelectedInChild: function (newEmployeeSelected) {
       this.employee = newEmployeeSelected;
-      // setTimeout(function(){
-      //   this.$refs.txtEmployeeCode.focus();
-      // }, 1000);
     },
   },
 
   data() {
     return {
       employee: {},
+
+      // Lấy dữ liệu từ server và build combobox
+      departments: Combobox.getDepartment("EmployeeDetail"),
+
+      positions: Combobox.getPosition("EmployeeDetail"),
+
+      genders: Combobox.getGender("EmployeeDetail"),
     };
   },
 
   methods: {
-    validate() {},
+    // gói dữ liệu từ input để gửi lên server (POST or PUT)
+    bindDataForm({ fieldName, item }) {
+      let me = this;
+      switch (fieldName) {
+        case "Department":
+          me.employee.DepartmentId = item.id;
+          break;
+        case "Gender":
+          me.employee.Gender = item.id;
+          break;
+      }
+    },
 
     btnCloseDialogOnClick() {
       this.$emit("closeOnClick");
     },
+    /**Thêm sửa nhân viên */
     saveEmployee() {
       // build oject
 
@@ -209,22 +217,28 @@ export default {
       var ten = document.getElementById("EmployeeName");
       if (!ten.value) ten.classList.add("red");
       else ten.classList.remove("red");
-// email
-     
+      // email
+      var email = document.getElementById("email");
+      // eslint-disable-next-line
+      const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      console.log(email);
+      if (email.value.match(regex)) {
+        email.classList.remove("red");
+      } else email.classList.add("red");
+      // phòng ban
+      // var deparment = document.getElementById("department");
+      // if (!deparment.value) deparment.classList.add("red");
+      // else deparment.classList.remove("red");
       // gọi api thực hiện dữ liệu
       if (this.formMode == this.MISAEnum.FormMode.Add) {
         axios
           .post(`http://amis.manhnv.net/api/v1/Employees`, employee)
           .then((response) => {
-            // hiển thị toast message thông báo thành công
-            // this.loadData();
-
             // ẩn form chi tiết:
-            document.getElementById("dlgDetail").style.display = "none";
+            // document.getElementById("dlgDetail").style.display = "none";
             // load lại dữ liệu
-            // axios.get("http://amis.manhnv.net/api/v1/Employees");
+            this.$emit("loadingEmployees", false);
             // thông báo thêm thành công
-            //  this.$swal.fire("Đã xóa!", "Nhân viên đã được xóa.", "success");
             var x = this.$swal;
             x.mixin({
               toast: true,
@@ -254,13 +268,9 @@ export default {
             employee
           )
           .then((response) => {
-            // hiển thị toast message thông báo thành công
-            // ẩn form chi tiết:
-            document.getElementById("dlgDetail").style.display = "none";
-            // load lại dữ liệu
-
+            // load lại dữ liệu và ẩn form chi tiết:
+            this.$emit("loadingEmployees", false);
             // thông báo thêm thành công
-            //  this.$swal.fire("Đã xóa!", "Nhân viên đã được xóa.", "success");
             var x = this.$swal;
             x.mixin({
               toast: true,
