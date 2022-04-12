@@ -34,7 +34,9 @@ table.m-table tbody tr:hover .action {
   text-align: center;
   line-height: 48px;
 }
-
+.selectedRow {
+  background-color: #ebf9f4;
+}
 
 table.m-table tr:hover .action {
   display: block;

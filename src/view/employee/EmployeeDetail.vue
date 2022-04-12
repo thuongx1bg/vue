@@ -75,7 +75,7 @@
                 >
                 <div class="m-row-input">
                   <combobox-component
-                  id="department"
+                    id="department"
                     style="height: 40px,color:black !important"
                     :items="departments"
                     @bindDataForm="bindDataForm"
@@ -208,7 +208,9 @@ export default {
       // build oject
 
       var employee = this.employee;
-      // validate dữ liệu
+      /**
+       *  validate dữ liệu
+       *  */
       // mã nhân viên
       var ma = document.getElementById("txtEmployeeCode");
       if (!ma.value) ma.classList.add("red");
@@ -225,24 +227,19 @@ export default {
       if (email.value.match(regex)) {
         email.classList.remove("red");
       } else email.classList.add("red");
-      // phòng ban
-      // var deparment = document.getElementById("department");
-      // if (!deparment.value) deparment.classList.add("red");
-      // else deparment.classList.remove("red");
+
       // gọi api thực hiện dữ liệu
       if (this.formMode == this.MISAEnum.FormMode.Add) {
         axios
           .post(`http://amis.manhnv.net/api/v1/Employees`, employee)
           .then((response) => {
-            // ẩn form chi tiết:
-            // document.getElementById("dlgDetail").style.display = "none";
             // load lại dữ liệu
             this.$emit("loadingEmployees", false);
             // thông báo thêm thành công
             var x = this.$swal;
             x.mixin({
               toast: true,
-              position: "bottom-end",
+              position: "top-end",
               showConfirmButton: false,
               timer: 3000,
               timerProgressBar: true,
@@ -274,7 +271,7 @@ export default {
             var x = this.$swal;
             x.mixin({
               toast: true,
-              position: "bottom-end",
+              position: "top-end",
               showConfirmButton: false,
               timer: 3000,
               timerProgressBar: true,
@@ -295,6 +292,25 @@ export default {
           });
       }
     },
+  },
+
+ 
+  updated() {
+    // chỉ chạy duy nhất 1 lần khi khởi tạo
+    var ma = document.getElementById("txtEmployeeCode");
+    ma.classList.remove("red");
+    console.log(`b;ah ba;h`);
+    // tên nhân viên
+    var ten = document.getElementById("EmployeeName");
+    ten.classList.remove("red");
+    // email
+    var email = document.getElementById("email");
+    // eslint-disable-next-line
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    console.log(email);
+    email.classList.remove("red");
+    // forcus vào ô đầu tiên
+    console.log(6);
   },
 };
 </script>

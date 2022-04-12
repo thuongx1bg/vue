@@ -18,24 +18,14 @@
         class="m-input-search m-input"
         placeholder="Tìm kiếm theo tên, mã hoặc số điện thoại"
       />
-      <!-- <select style="margin-left: 10px; margin-right: 13px" name="" id="">
-        <option value="">Tất cả phòng ban</option>
-        <option value="">Phòng 1</option>
-      </select> -->
-
-      <!-- items : dữ liệu để build combobox -->
-      <!-- employeeForm : truyền toàn bộ dữ liệu form sang combobox để bind combobox -->
-      <!-- bindDataForm : sự kiện khi thay đổi lựa chọn trên combobox sẽ gửi lại dữ liệu lên form để gửi lên server -->
       <combobox-component
-      style="height:40px;margin-left:16px"
+        style="height: 40px; margin-left: 16px"
         :items="departments"
-        
       />
 
       <combobox-component
-      style="height:40px;margin-left:16px"
+        style="height: 40px; margin-left: 16px"
         :items="positions"
-        
       />
     </div>
 
@@ -81,7 +71,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr
+          <tr v-bind:class="{
+                selectedRow:
+                  this.employeeSelected.EmployeeId == emp.EmployeeId,
+              }"
             @dblclick="rowOnDbClick(emp)"
             @click="rowOnClick(emp)"
             v-for="emp in employees"
@@ -177,7 +170,8 @@ import ComboboxComponent from "../../components/base/Combobox.vue";
 export default {
   name: "employee-list",
   components: {
-    EmployeeDetail, ComboboxComponent
+    EmployeeDetail,
+    ComboboxComponent,
   },
 
   /**
@@ -196,7 +190,6 @@ export default {
       positions: Combobox.getPosition("EmployeeDetail"),
 
       genders: Combobox.getGender("EmployeeDetail"),
-     
     };
   },
 
@@ -204,8 +197,6 @@ export default {
    * các phương thuwcs
    */
   methods: {
-
-    
     /**
      * Hàm load lại data và ẩn form thêm sửa nhân viên
      */
@@ -274,10 +265,11 @@ export default {
             var x = this.$swal;
             x.mixin({
               toast: true,
-              position: "bottom-end",
+              position: "top-end",
               showConfirmButton: false,
               timer: 3000,
               timerProgressBar: true,
+              width: 100 ,
               didOpen: (toast) => {
                 toast.addEventListener("mouseenter", x.stopTimer);
                 toast.addEventListener("mouseleave", x.resumeTimer);
@@ -309,6 +301,7 @@ export default {
       // console.log(emp.EmployeeName);
       var me = this;
       me.formMode = this.MISAEnum.FormMode.Update;
+
 
       // Biding thông tin chi tiết nhân viên tương ứng lên form chi tiết
 
